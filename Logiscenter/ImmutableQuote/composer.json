@@ -1,0 +1,41 @@
+{
+"name": "logiscenter/module-immutable-quote",
+"description": "Superior Immutable Quote System for Magento 2",
+"type": "magento2-module",
+"version": "1.0.0",
+"license": "proprietary",
+"authors": [
+{
+"name": "Logiscenter Development Team",
+"email": "dev@logiscenter.com"
+}
+],
+"require": {
+"php": "~8.1.0|~8.2.0",
+"magento/framework": ">=103.0.0",
+"magento/module-quote": ">=101.2.0",
+"magento/module-customer": ">=103.0.0",
+"magento/module-checkout": ">=100.4.0",
+"magento/module-sales": ">=103.0.0",
+"magento/module-webapi": ">=100.4.0"
+},
+"suggest": {
+"magento/module-logging": "For enhanced audit capabilities"
+},
+"autoload": {
+"files": [
+"registration.php"
+],
+"psr-4": {
+"Logiscenter\\ImmutableQuote\\": ""
+}
+},
+"extra": {
+"map": [
+[
+"*",
+"Logiscenter/ImmutableQuote"
+]
+]
+}
+}

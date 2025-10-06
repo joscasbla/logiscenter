@@ -1,0 +1,211 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="logiscenter" translate="label" sortOrder="300">
+            <label>Logiscenter</label>
+        </tab>
+        
+        <section id="logiscenter_immutable_quote" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Immutable Quote System</label>
+            <tab>logiscenter</tab>
+            <resource>Logiscenter_ImmutableQuote::config_general</resource>
+            
+            <!-- General Settings -->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Immutable Quote System</label>
+                    <comment>Enable or disable the immutable quote functionality</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                
+                <field id="auto_disable_other_quotes" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto-disable Other Quotes</label>
+                    <comment>When a customer enables a quote, automatically disable their other active quotes</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                
+                <field id="default_expiration_days" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Quote Expiration (Days)</label>
+                    <comment>Default number of days until quote expires (0 = no expiration)</comment>
+                    <validate>integer validate-zero-or-greater</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                
+                <field id="allow_customer_enable" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Customer to Enable Quotes</label>
+                    <comment>Allow customers to enable their own immutable quotes</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                
+            </group>
+            
+            <!-- Rate Limiting Settings -->
+            <group id="rate_limiting" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Rate Limiting</label>
+                <comment>Configure API rate limits to prevent abuse</comment>
+                
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Rate Limiting</label>
+                    <comment>Enable rate limiting for API endpoints</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                
+                <field id="create_quote" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Create Quote Limit (per hour)</label>
+                    <comment>Maximum number of quotes that can be created per hour per user</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                
+                <field id="list_quotes" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Quotes Limit (per hour)</label>
+                    <comment>Maximum number of quote list requests per hour per user</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                
+                <field id="enable_quote" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Quote Limit (per hour)</label>
+                    <comment>Maximum number of quotes that can be enabled per hour per user</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                
+                <field id="get_quote" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Get Quote Limit (per hour)</label>
+                    <comment>Maximum number of single quote requests per hour per user</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                
+            </group>
+            
+            <!-- Security Settings -->
+            <group id="security" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Security Settings</label>
+                
+                <field id="log_modification_attempts" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Log Modification Attempts</label>
+                    <comment>Log all attempts to modify immutable quotes</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                
+                <field id="alert_on_suspicious_activity" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Alert on Suspicious Activity</label>
+                    <comment>Send alerts when suspicious modification patterns are detected</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                
+                <field id="alert_email" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Alert Email Address</label>
+                    <comment>Email address to receive security alerts</comment>
+                    <validate>validate-email</validate>
+                    <depends>
+                        <field id="alert_on_suspicious_activity">1</field>
+                    </depends>
+                </field>
+                
+                <field id="max_modification_attempts" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Modification Attempts</label>
+                    <comment>Maximum number of modification attempts before triggering alert</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="alert_on_suspicious_activity">1</field>
+                    </depends>
+                </field>
+                
+            </group>
+            
+            <!-- Caching Settings -->
+            <group id="caching" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Caching Settings</label>
+                
+                <field id="enable_caching" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Caching</label>
+                    <comment>Enable multi-layer caching for better performance</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                
+                <field id="quote_status_ttl" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Quote Status Cache TTL (seconds)</label>
+                    <comment>Time to live for quote status cache</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enable_caching">1</field>
+                    </depends>
+                </field>
+                
+                <field id="permissions_ttl" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Permissions Cache TTL (seconds)</label>
+                    <comment>Time to live for quote permissions cache</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enable_caching">1</field>
+                    </depends>
+                </field>
+                
+                <field id="quote_list_ttl" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Quote List Cache TTL (seconds)</label>
+                    <comment>Time to live for customer quote lists cache</comment>
+                    <validate>integer validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enable_caching">1</field>
+                    </depends>
+                </field>
+                
+            </group>
+            
+            <!-- Audit Settings -->
+            <group id="audit" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Audit and Logging</label>
+                
+                <field id="enable_audit_logging" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Audit Logging</label>
+                    <comment>Enable comprehensive audit logging</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                
+                <field id="log_level" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Log Level</label>
+                    <comment>Minimum log level to record</comment>
+                    <source_model>Logiscenter\ImmutableQuote\Model\Config\Source\LogLevel</source_model>
+                    <depends>
+                        <field id="enable_audit_logging">1</field>
+                    </depends>
+                </field>
+                
+                <field id="log_retention_days" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Log Retention (Days)</label>
+                    <comment>Number of days to keep audit logs (0 = keep forever)</comment>
+                    <validate>integer validate-zero-or-greater</validate>
+                    <depends>
+                        <field id="enable_audit_logging">1</field>
+                    </depends>
+                </field>
+                
+            </group>
+            
+        </section>
+    </system>
+</config>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <!-- Consolidated Quote Extensions Table - Solves Micro-table Problem -->
+    <table name="logiscenter_quote_extensions" resource="default" engine="innodb">
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" identity="false"
+                comment="Quote ID"/>
+        <column xsi:type="boolean" name="is_immutable" nullable="false" default="false"
+                comment="Is Quote Immutable"/>
+        <column xsi:type="datetime" name="created_at" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="datetime" name="updated_at" nullable="false" default="CURRENT_TIMESTAMP"
+                on_update="true" comment="Updated At"/>
+        <column xsi:type="datetime" name="enabled_at" nullable="true" comment="Enabled At"/>
+        <column xsi:type="int" name="created_by_admin_id" unsigned="true" nullable="true"
+                comment="Created By Admin User ID"/>
+        <column xsi:type="int" name="enabled_by_customer_id" unsigned="true" nullable="true"
+                comment="Enabled By Customer ID"/>
+        <column xsi:type="text" name="metadata" nullable="true" comment="Additional Metadata JSON"/>
+
+        <!-- Future Extensions - Solving Micro-table Problem -->
+        <column xsi:type="datetime" name="expires_at" nullable="true" comment="Quote Expiration Date"/>
+        <column xsi:type="boolean" name="terms_accepted" nullable="false" default="false"
+                comment="Terms and Conditions Accepted"/>
+        <column xsi:type="varchar" name="customer_reference" length="255" nullable="true"
+                comment="Customer Internal PO Reference"/>
+        <column xsi:type="text" name="custom_fees" nullable="true" comment="Custom Fees JSON"/>
+        <column xsi:type="text" name="item_sorting" nullable="true" comment="Item Sorting Configuration JSON"/>
+
+        <!-- Constraints -->
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="quote_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="LOGISCENTER_QUOTE_EXT_QUOTE_ID_QUOTE_ENTITY_ID"
+                    table="logiscenter_quote_extensions" column="quote_id"
+                    referenceTable="quote" referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <constraint xsi:type="foreign" referenceId="LOGISCENTER_QUOTE_EXT_ADMIN_ID_ADMIN_USER_USER_ID"
+                    table="logiscenter_quote_extensions" column="created_by_admin_id"
+                    referenceTable="admin_user" referenceColumn="user_id" onDelete="SET NULL"/>
+
+        <!-- Indexes for Performance -->
+        <index referenceId="LOGISCENTER_QUOTE_EXT_IS_IMMUTABLE" indexType="btree">
+            <column name="is_immutable"/>
+        </index>
+
+        <index referenceId="LOGISCENTER_QUOTE_EXT_CREATED_AT" indexType="btree">
+            <column name="created_at"/>
+        </index>
+
+        <index referenceId="LOGISCENTER_QUOTE_EXT_ENABLED_BY_CUSTOMER_ID_IS_IMMUTABLE" indexType="btree">
+            <column name="enabled_by_customer_id"/>
+            <column name="is_immutable"/>
+        </index>
+    </table>
+
+    <!-- Audit Log Table -->
+    <table name="logiscenter_immutable_quote_audit" resource="default" engine="innodb">
+        <column xsi:type="bigint" name="id" unsigned="true" nullable="false" identity="true"
+                comment="Audit Log ID"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false"
+                comment="Quote ID"/>
+        <column xsi:type="varchar" name="action" length="50" nullable="false"
+                comment="Action Performed"/>
+        <column xsi:type="int" name="admin_user_id" unsigned="true" nullable="true"
+                comment="Admin User ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="true"
+                comment="Customer ID"/>
+        <column xsi:type="varchar" name="ip_address" length="45" nullable="true"
+                comment="IP Address"/>
+        <column xsi:type="text" name="user_agent" nullable="true" comment="User Agent"/>
+        <column xsi:type="text" name="request_data" nullable="true" comment="Request Data JSON"/>
+        <column xsi:type="varchar" name="result" length="20" nullable="false"
+                comment="Action Result (success/failed)"/>
+        <column xsi:type="text" name="error_message" nullable="true" comment="Error Message"/>
+        <column xsi:type="datetime" name="created_at" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <!-- Indexes for Audit Queries -->
+        <index referenceId="LOGISCENTER_IMMUTABLE_QUOTE_AUDIT_QUOTE_ID" indexType="btree">
+            <column name="quote_id"/>
+        </index>
+
+        <index referenceId="LOGISCENTER_IMMUTABLE_QUOTE_AUDIT_CREATED_AT" indexType="btree">
+            <column name="created_at"/>
+        </index>
+
+        <index referenceId="LOGISCENTER_IMMUTABLE_QUOTE_AUDIT_ACTION" indexType="btree">
+            <column name="action"/>
+        </index>
+    </table>
+</schema>

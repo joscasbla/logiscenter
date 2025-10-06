@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Interface Implementations -->
+    <preference for="Logiscenter\ImmutableQuote\Api\Data\ImmutableQuoteInterface"
+                type="Logiscenter\ImmutableQuote\Model\ImmutableQuote"/>
+
+    <preference for="Logiscenter\ImmutableQuote\Api\ImmutableQuoteRepositoryInterface"
+                type="Logiscenter\ImmutableQuote\Model\ImmutableQuoteRepository"/>
+
+    <preference for="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface"
+                type="Logiscenter\ImmutableQuote\Model\ImmutableQuoteManagement"/>
+
+    <preference for="Logiscenter\ImmutableQuote\Model\Service\ValidationResultInterface"
+                type="Logiscenter\ImmutableQuote\Model\Service\ValidationResult"/>
+
+    <!-- Factory Configuration -->
+    <type name="Logiscenter\ImmutableQuote\Api\Data\ImmutableQuoteInterfaceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Logiscenter\ImmutableQuote\Api\Data\ImmutableQuoteInterface</argument>
+        </arguments>
+    </type>
+
+    <!-- Plugin Configuration - Unified Prevention Logic -->
+    <type name="Magento\Quote\Model\Quote">
+        <plugin name="prevent_immutable_quote_modifications"
+                type="Logiscenter\ImmutableQuote\Plugin\Quote\PreventQuoteModifications"
+                sortOrder="100"/>
+    </type>
+
+    <!-- Logger Configuration -->
+    <type name="Logiscenter\ImmutableQuote\Model\Service\AuditLoggerService">
+        <arguments>
+            <argument name="logger" xsi:type="object">Logiscenter\ImmutableQuote\Logger\ImmutableQuoteLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Custom Logger -->
+    <virtualType name="Logiscenter\ImmutableQuote\Logger\ImmutableQuoteLogger" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">immutableQuote</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Logiscenter\ImmutableQuote\Logger\Handler\ImmutableQuoteHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Custom Log Handler -->
+    <virtualType name="Logiscenter\ImmutableQuote\Logger\Handler\ImmutableQuoteHandler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/immutable_quote.log</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Rate Limiting Configuration -->
+    <type name="Logiscenter\ImmutableQuote\Model\Service\RateLimitingService">
+        <arguments>
+            <argument name="cacheService" xsi:type="object">Logiscenter\ImmutableQuote\Model\Service\CacheService</argument>
+        </arguments>
+    </type>
+
+    <!-- Search Criteria Builder -->
+    <type name="Magento\Framework\Api\Search\SearchCriteriaBuilder">
+        <plugin name="immutable_quote_search_criteria"
+                type="Logiscenter\ImmutableQuote\Plugin\SearchCriteriaBuilderPlugin"
+                sortOrder="100"/>
+    </type>
+
+</config>

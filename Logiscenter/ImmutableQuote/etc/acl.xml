@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Logiscenter_ImmutableQuote::immutable_quote" title="Immutable Quotes" translate="title" sortOrder="100">
+                    
+                    <!-- View Permission -->
+                    <resource id="Logiscenter_ImmutableQuote::view" title="View Immutable Quotes" translate="title" sortOrder="10">
+                        <resource id="Logiscenter_ImmutableQuote::view_own" title="View Own Quotes" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::view_all" title="View All Quotes" translate="title" sortOrder="20"/>
+                        <resource id="Logiscenter_ImmutableQuote::view_customer" title="View Customer Quotes" translate="title" sortOrder="30"/>
+                    </resource>
+                    
+                    <!-- Create Permission -->
+                    <resource id="Logiscenter_ImmutableQuote::create" title="Create Immutable Quotes" translate="title" sortOrder="20">
+                        <resource id="Logiscenter_ImmutableQuote::create_from_quote" title="Create from Existing Quote" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::create_new" title="Create New Quote" translate="title" sortOrder="20"/>
+                    </resource>
+                    
+                    <!-- Enable Permission -->
+                    <resource id="Logiscenter_ImmutableQuote::enable" title="Enable Immutable Quotes" translate="title" sortOrder="30">
+                        <resource id="Logiscenter_ImmutableQuote::enable_own" title="Enable Own Quotes" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::enable_all" title="Enable Any Quote" translate="title" sortOrder="20"/>
+                    </resource>
+                    
+                    <!-- Manage Permission -->
+                    <resource id="Logiscenter_ImmutableQuote::manage" title="Manage Immutable Quotes" translate="title" sortOrder="40">
+                        <resource id="Logiscenter_ImmutableQuote::modify_metadata" title="Modify Quote Metadata" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::bulk_operations" title="Bulk Operations" translate="title" sortOrder="20"/>
+                        <resource id="Logiscenter_ImmutableQuote::disable" title="Disable Quotes" translate="title" sortOrder="30"/>
+                    </resource>
+                    
+                    <!-- Delete Permission -->
+                    <resource id="Logiscenter_ImmutableQuote::delete" title="Delete Immutable Quotes" translate="title" sortOrder="50">
+                        <resource id="Logiscenter_ImmutableQuote::delete_own" title="Delete Own Quotes" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::delete_any" title="Delete Any Quote" translate="title" sortOrder="20"/>
+                    </resource>
+                    
+                    <!-- Checkout Permission -->
+                    <resource id="Logiscenter_ImmutableQuote::checkout" title="Checkout Immutable Quotes" translate="title" sortOrder="60">
+                        <resource id="Logiscenter_ImmutableQuote::convert_to_order" title="Convert to Order" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::process_payment" title="Process Payment" translate="title" sortOrder="20"/>
+                    </resource>
+                    
+                    <!-- Audit Permissions -->
+                    <resource id="Logiscenter_ImmutableQuote::audit" title="Audit and Reporting" translate="title" sortOrder="70">
+                        <resource id="Logiscenter_ImmutableQuote::view_audit_logs" title="View Audit Logs" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::export_audit" title="Export Audit Data" translate="title" sortOrder="20"/>
+                        <resource id="Logiscenter_ImmutableQuote::view_reports" title="View Reports" translate="title" sortOrder="30"/>
+                    </resource>
+                    
+                    <!-- Configuration Permissions -->
+                    <resource id="Logiscenter_ImmutableQuote::config" title="Configure Immutable Quotes" translate="title" sortOrder="80">
+                        <resource id="Logiscenter_ImmutableQuote::config_general" title="General Configuration" translate="title" sortOrder="10"/>
+                        <resource id="Logiscenter_ImmutableQuote::config_rate_limiting" title="Rate Limiting Configuration" translate="title" sortOrder="20"/>
+                        <resource id="Logiscenter_ImmutableQuote::config_notifications" title="Notification Configuration" translate="title" sortOrder="30"/>
+                    </resource>
+                    
+                </resource>
+            </resource>
+            
+            <!-- Customer Permissions -->
+            <resource id="Magento_Customer::customer">
+                <resource id="Logiscenter_ImmutableQuote::customer" title="Customer Immutable Quotes" translate="title" sortOrder="100">
+                    <resource id="Logiscenter_ImmutableQuote::customer_view" title="View My Quotes" translate="title" sortOrder="10"/>
+                    <resource id="Logiscenter_ImmutableQuote::customer_enable" title="Enable My Quotes" translate="title" sortOrder="20"/>
+                    <resource id="Logiscenter_ImmutableQuote::customer_checkout" title="Checkout My Quotes" translate="title" sortOrder="30"/>
+                </resource>
+            </resource>
+            
+        </resources>
+    </acl>
+</config>

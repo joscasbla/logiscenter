@@ -1,0 +1,112 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Create Immutable Quote -->
+    <route url="/V1/immutable-quotes" method="POST">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface" method="createFromQuote"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::create"/>
+        </resources>
+    </route>
+
+    <!-- Get Immutable Quote by ID -->
+    <route url="/V1/immutable-quotes/:quoteId" method="GET">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteRepositoryInterface" method="getByQuoteId"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::view"/>
+        </resources>
+    </route>
+
+    <!-- Enable/Activate Immutable Quote -->
+    <route url="/V1/immutable-quotes/:quoteId/enable" method="POST">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface" method="enableQuote"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::enable"/>
+        </resources>
+    </route>
+
+    <!-- Disable Immutable Quote -->
+    <route url="/V1/immutable-quotes/:quoteId/disable" method="POST">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface" method="disableQuote"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::manage"/>
+        </resources>
+    </route>
+
+    <!-- Add Items to Quote (before making immutable) -->
+    <route url="/V1/immutable-quotes/:quoteId/items" method="POST">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface" method="addItems"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::manage"/>
+        </resources>
+    </route>
+
+    <!-- Delete Immutable Quote -->
+    <route url="/V1/immutable-quotes/:quoteId" method="DELETE">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteRepositoryInterface" method="deleteByQuoteId"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::delete"/>
+        </resources>
+    </route>
+
+    <!-- Get List of Immutable Quotes -->
+    <route url="/V1/immutable-quotes" method="GET">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::view"/>
+        </resources>
+    </route>
+
+    <!-- Get Customer's Immutable Quotes -->
+    <route url="/V1/customers/:customerId/immutable-quotes" method="GET">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteRepositoryInterface" method="getByCustomerId"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::view"/>
+        </resources>
+    </route>
+
+    <!-- Get Customer's Active Immutable Quote -->
+    <route url="/V1/customers/:customerId/immutable-quotes/active" method="GET">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteRepositoryInterface" method="getActiveByCustomerId"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::view"/>
+        </resources>
+    </route>
+
+    <!-- Convert to Order -->
+    <route url="/V1/immutable-quotes/:quoteId/order" method="POST">
+        <service class="Logiscenter\ImmutableQuote\Api\ImmutableQuoteManagementInterface" method="convertToOrder"/>
+        <resources>
+            <resource ref="Logiscenter_ImmutableQuote::checkout"/>
+        </resources>
+    </route>
+
+    <!-- Customer-specific endpoints (with customer authentication) -->
+    
+    <!-- Customer: Get My Immutable Quotes -->
+    <route url="/V1/customers/me/immutable-quotes" method="GET">
+        <service class="Logiscenter\ImmutableQuote\Model\CustomerQuoteManagement" method="getMyQuotes"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!-- Customer: Enable My Quote -->
+    <route url="/V1/customers/me/immutable-quotes/:quoteId/enable" method="POST">
+        <service class="Logiscenter\ImmutableQuote\Model\CustomerQuoteManagement" method="enableMyQuote"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!-- Customer: Get My Quote Details -->
+    <route url="/V1/customers/me/immutable-quotes/:quoteId" method="GET">
+        <service class="Logiscenter\ImmutableQuote\Model\CustomerQuoteManagement" method="getMyQuote"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+</routes>

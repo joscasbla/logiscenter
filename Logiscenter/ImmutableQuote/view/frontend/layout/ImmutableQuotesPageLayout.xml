@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" 
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    
+    <head>
+        <title>My Immutable Quotes</title>
+        <css src="Logiscenter_ImmutableQuote::css/immutable-quotes.css"/>
+    </head>
+    
+    <body>
+        <referenceContainer name="sidebar.main">
+            <referenceBlock name="customer-account-navigation" display="true"/>
+        </referenceContainer>
+        
+        <referenceContainer name="content">
+            <block class="Logiscenter\ImmutableQuote\Block\Customer\QuoteList" 
+                   name="customer.immutable.quotes.list" 
+                   template="Logiscenter_ImmutableQuote::customer/quotes/list.phtml"/>
+        </referenceContainer>
+    </body>
+    
+</page>
