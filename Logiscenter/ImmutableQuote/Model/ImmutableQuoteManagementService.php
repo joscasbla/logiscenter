@@ -16,17 +16,16 @@ use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Api\CartRepositoryInterface;
-use Magento\Quote\Api\Data\CartInterface;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Quote\Model\QuoteManagement;
 use Psr\Log\LoggerInterface;
 
 /**
  * Immutable Quote Management Service
- * 
+ *
  * High-level business operations with event-driven architecture
  */
-class ImmutableQuoteManagement implements ImmutableQuoteManagementInterface
+class ImmutableQuoteManagementService implements ImmutableQuoteManagementInterface
 {
     /**
      * @var ImmutableQuoteRepositoryInterface
@@ -110,7 +109,7 @@ class ImmutableQuoteManagement implements ImmutableQuoteManagementInterface
             // Validate quote exists and is valid
             $quote = $this->cartRepository->get($quoteId);
             $validationResult = $this->quoteValidationService->validateForImmutability($quote);
-            
+
             if (!$validationResult['valid']) {
                 throw new LocalizedException(
                     __('Quote cannot be made immutable: %1', implode(', ', $validationResult['errors']))
@@ -183,7 +182,7 @@ class ImmutableQuoteManagement implements ImmutableQuoteManagementInterface
         try {
             // Get immutable quote
             $immutableQuote = $this->immutableQuoteRepository->getByQuoteId($quoteId);
-            
+
             // Validate quote belongs to customer
             $quote = $this->cartRepository->get($quoteId);
             if ($quote->getCustomerId() != $customerId) {
@@ -247,17 +246,17 @@ class ImmutableQuoteManagement implements ImmutableQuoteManagementInterface
     {
         try {
             $immutableQuote = $this->immutableQuoteRepository->getByQuoteId($quoteId);
-            
+
             if (!$immutableQuote->isEnabled()) {
                 return true; // Already disabled
             }
 
             $customerId = $immutableQuote->getEnabledByCustomerId();
-            
+
             // Clear enabled fields
             $immutableQuote->setEnabledAt(null)
                           ->setEnabledByCustomerId(null);
-            
+
             $this->immutableQuoteRepository->save($immutableQuote);
 
             // Audit log
@@ -290,7 +289,7 @@ class ImmutableQuoteManagement implements ImmutableQuoteManagementInterface
     {
         try {
             $immutableQuote = $this->immutableQuoteRepository->getByQuoteId($quoteId);
-            
+
             if ($immutableQuote->isImmutable()) {
                 // Dispatch modification attempted event
                 $event = new ImmutableQuoteModificationAttemptedEvent(
@@ -308,7 +307,7 @@ class ImmutableQuoteManagement implements ImmutableQuoteManagementInterface
 
             // Quote is not yet immutable, allow modification
             $quote = $this->cartRepository->get($quoteId);
-            
+
             foreach ($items as $item) {
                 // Add item logic here
                 // This is simplified - actual implementation would use CartItemInterface
